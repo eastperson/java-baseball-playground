@@ -1,6 +1,13 @@
 package domain;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Problem {
 
@@ -25,9 +32,7 @@ public class Problem {
     }
 
     public Result match(String answer) {
-        if (answer.length() != 3) {
-            throw new CustomException();
-        }
+        validate(answer);
         Result result = new Result();
         if (this.correctAnswer.equals(answer)) {
             return new Result(3, 0);
@@ -41,6 +46,22 @@ public class Problem {
             }
         }
         return result;
+    }
+
+    private void validate(String answer) {
+        char[] charArray = answer.toCharArray();
+        if (charArray.length != 3) {
+            throw new CustomException("숫자는 반드시 3글자만 입력해주세요.");
+        }
+        Set<String> set = Stream.of(new String(charArray).split("")).collect(Collectors.toSet());
+        if (set.size() != 3) {
+            throw new CustomException("중복되는 문자열이 있습니다.");
+        }
+        try {
+            set.forEach(Integer::parseInt);
+        } catch (NumberFormatException e) {
+            throw new CustomException("숫자만 입력해주세요.");
+        }
     }
 
     public String correctAnswer() {
