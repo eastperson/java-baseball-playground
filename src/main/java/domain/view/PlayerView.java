@@ -49,11 +49,11 @@ public class PlayerView {
             if (input.equals("1")) {
                 this.restarting = true;
                 return true;
-            } else if (input.equals("2")) {
-                return false;
-            } else {
-                System.out.println("숫자를 다시 입력해주세요");
             }
+            if (input.equals("2")) {
+                return false;
+            }
+            System.out.println("숫자를 다시 입력해주세요");
         }
     }
 
